@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_test
+    ports:
+      - 9876:80
+      - 443:443
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+      - ./nginx:/etc/nginx:ro
