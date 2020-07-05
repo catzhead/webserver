@@ -7,17 +7,67 @@
 <style>
   #cy {
     width: 100%;
-    height: 100%;
-    position: absolute;
+    height: 50%;
+    position: relative;
     top: 0px;
     left: 0px;
+  }
+
+  .btn-class{
+   display: inline-block;
+   border:1px solid #BFBFBF;
+   color: #8C8C8C;
+   border-radius: 30px;
+   -webkit-border-radius: 30px;
+   -moz-border-radius: 30px;
+   font-family: Verdana;
+   width: auto;
+   height: auto;
+   font-size: 16px;
+   padding: 0px 17px;
+   background-color: #FCFAF9;
+  }
+
+  .btn-class:hover, .btn-class:active{
+   border:1px solid #BFBFBF;
+   color: #8C8C8C;
+   background-color: #E8E8E8;
   }
 </style>
 
 <body>
-  <div id="cy"></div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div id="cytowidget">
+    <div id="cy"></div>
+    <div id="buttons"></div>
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
 
   <script language="javascript">
+
+  var buttonReload = document.createElement('input');
+  buttonReload.setAttribute('type', 'button');
+  buttonReload.setAttribute('name', 'reload');
+  buttonReload.setAttribute('value', 'reload');
+  buttonReload.setAttribute('class', 'btn-class');
+  cyElement = document.getElementById('buttons'),
+  cyElement.appendChild(buttonReload);
+
+  buttonReload.onclick = reloadCytoscape;
+
   var cy = cytoscape({
     container: document.getElementById('cy'),
     style: [
@@ -91,14 +141,6 @@
     layout.run();
   }
 
-  var buttonReload = document.createElement('input');
-  buttonReload.setAttribute('type', 'button');
-  buttonReload.setAttribute('name', 'reload');
-  buttonReload.setAttribute('value', 'reload');
-  cyElement = document.getElementById('cy'),
-  cyElement.appendChild(buttonReload);
-
-  buttonReload.onclick = reloadCytoscape;
   </script>
 </body>
 
