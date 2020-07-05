@@ -1,0 +1,90 @@
+<html>
+<head>
+  <title>Cytoscape test</title>
+  <script src='js/cytoscape.min.js'></script>
+</head>
+
+<style>
+  #cy {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+</style>
+
+<body>
+  <div id="cy"></div>
+
+  <script language="javascript">
+  var cy = cytoscape({
+    container: document.getElementById('cy'),
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "width": "label",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#ffffff",
+          "border-width": "1",
+          "border-style": "dotted",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      }
+    ]
+  });
+
+  var prev_source = 'node0';
+  cy.add({
+    data: {id: prev_source}
+  });
+
+  for (var i = 1; i < 10; i++) {
+    var source = 'node' + i;
+
+    cy.add({
+      data: {id: source}
+    });
+
+    cy.add({
+      data: {
+        id: 'edge' + i,
+        source: source,
+        target: prev_source
+      }
+    });
+
+    prev_source = source;
+  }
+
+  cy.add({
+    data: {
+      id: 'edge_loop',
+      source: 'node0',
+      target: 'node0'
+    }
+  });
+
+  var layout = cy.layout({
+    name: 'circle'
+  });
+
+  layout.run();
+
+  </script>
+</body>
+
+
+</html>
