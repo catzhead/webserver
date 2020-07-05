@@ -39,6 +39,7 @@
         selector: 'edge',
         style: {
           "width": "1",
+          "curve-style": "straight",
           "target-arrow-shape": "triangle",
           "target-arrow-color": "#ff0000"
         }
@@ -83,6 +84,21 @@
 
   layout.run();
 
+  function reloadCytoscape() {
+    var layout = cy.layout({
+      name: 'circle'
+    });
+    layout.run();
+  }
+
+  var buttonReload = document.createElement('input');
+  buttonReload.setAttribute('type', 'button');
+  buttonReload.setAttribute('name', 'reload');
+  buttonReload.setAttribute('value', 'reload');
+  cyElement = document.getElementById('cy'),
+  cyElement.appendChild(buttonReload);
+
+  buttonReload.onclick = reloadCytoscape;
   </script>
 </body>
 
