@@ -55,18 +55,36 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   <div>
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
   </div>
+  <script language="javascript">
+
+  externalData = [
+    { 'data': {'id': 'external1'} },
+    { data: {id: 'external2'} },
+    { data: {id: 'extedge1', source: 'external1',target: 'external2'} }
+  ];
+
+  </script>
 
   <script language="javascript">
 
+  cyElement = document.getElementById('buttons');
+
   var buttonReload = document.createElement('input');
   buttonReload.setAttribute('type', 'button');
-  buttonReload.setAttribute('name', 'reload');
-  buttonReload.setAttribute('value', 'reload');
+  buttonReload.setAttribute('name', 'reset');
+  buttonReload.setAttribute('value', 'reset');
   buttonReload.setAttribute('class', 'btn-class');
-  cyElement = document.getElementById('buttons'),
   cyElement.appendChild(buttonReload);
-
   buttonReload.onclick = reloadCytoscape;
+
+  var buttonLayout = document.createElement('input');
+  buttonLayout.setAttribute('type', 'button');
+  buttonLayout.setAttribute('name', 'layout');
+  buttonLayout.setAttribute('value', 'layout');
+  buttonLayout.setAttribute('class', 'btn-class');
+  cyElement.appendChild(buttonLayout);
+  buttonLayout.onclick = changeLayout;
+
 
   var cy = cytoscape({
     container: document.getElementById('cy'),
@@ -128,11 +146,38 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
     }
   });
 
-  var layout = cy.layout({
-    name: 'circle'
-  });
+  cy.add(externalData);
 
-  layout.run();
+  var layouts = [
+    'null',
+    'random',
+    'preset',
+    'grid',
+    'circle',
+    'concentric',
+    'breadthfirst',
+    'cose'
+  ];
+
+  var currentLayout = 4;
+
+  function setLayout() {
+    var layout = cy.layout({
+      name: layouts[currentLayout]
+    });
+
+    buttonLayout.setAttribute('value', layouts[currentLayout]);
+
+    layout.run();
+  }
+
+  function changeLayout() {
+    currentLayout++;
+    if (currentLayout >= layouts.length) {
+      currentLayout = 0;
+    }
+    setLayout();
+  }
 
   function reloadCytoscape() {
     var layout = cy.layout({
@@ -140,6 +185,8 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
     });
     layout.run();
   }
+
+  setLayout();
 
   </script>
 </body>
