@@ -5,7 +5,7 @@
 </head>
 
 <style>
-  #cy {
+  .cygraph {
     width: 100%;
     height: 50%;
     position: relative;
@@ -40,7 +40,7 @@
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
   </div>
   <div id="cytowidget">
-    <div id="cy"></div>
+    <div id="cy" class='cygraph'></div>
     <div id="buttons"></div>
   </div>
   <div>
@@ -55,13 +55,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   <div>
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
   </div>
-  <script language="javascript">
-
-  externalData = [
-    { 'data': {'id': 'external1'} },
-    { data: {id: 'external2'} },
-    { data: {id: 'extedge1', source: 'external1',target: 'external2'} }
-  ];
+  <script language="javascript" src="js/data_generated.js">
 
   </script>
 
@@ -129,7 +123,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
     cy.add({
       data: {
-        id: 'edge' + i,
+        id: 'genedge' + i,
         source: source,
         target: prev_source
       }
@@ -187,6 +181,63 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   }
 
   setLayout();
+
+  </script>
+
+  <h1>Graph 2</h1>
+  <div id="cytowidget2">
+    <div id="cy2" class='cygraph'></div>
+  </div>
+  <script>
+  var cy2 = cytoscape({
+    container: document.getElementById('cy2'),
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "width": "label",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#ffffff",
+          "border-width": "1",
+          "border-style": "dotted",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      }
+    ]
+  });
+
+  cy2.add({
+    data: { id: 'node0' }
+  });
+
+  cy2.add({
+    data: { id: 'node1' }
+  });
+
+  cy2.add({
+    data: {
+      id: 'edge0',
+      source: 'node0',
+      target: 'node1'
+    }
+  });
+
+  var layout2 = cy2.layout({
+    name: 'circle'
+  });
+  layout2.run();
 
   </script>
 </body>
