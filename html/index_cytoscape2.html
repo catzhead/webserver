@@ -2,7 +2,6 @@
 <head>
   <title>Cytoscape generation test</title>
   <script src='js/cytoscape.min.js'></script>
-  <script src='js/cytoscape-cxtmenu.js'></script>
 </head>
 
 <style>
@@ -110,26 +109,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
     });
 
     cy.userZoomingEnabled(false);
-
-    cy.cxtmenu({
-      menuRadius: 80,
-      selector: 'core',
-      commands: [
-        {
-          content: '\uD83D\uDD0D',
-          select: function(ele){
-            ele.userZoomingEnabled(true);
-          }
-        },
-        {
-          content: '\u21BB',
-          select: function(ele){
-            console.log('item2');
-            ele.layout({name:'circle'}).run();
-          }
-        }
-      ]
-    });
 
     var layout = cy.layout({
       name: 'circle'
