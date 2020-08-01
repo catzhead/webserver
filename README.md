@@ -16,7 +16,7 @@ in the uwsgix image.
 First, build the docker image for the uwsgi server:
 
     cd uwsgi-image
-    docker build -t uwsgi .
+    docker build --network host -t uwsgi .
 
 Then update docker-compose.yml to match the app name in the django path.
 
