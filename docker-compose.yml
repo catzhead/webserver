@@ -5,7 +5,17 @@ services:
     container_name: nginx_test
     ports:
       - 9876:80
+      - 9878:8002
       - 443:443
     volumes:
       - ./html:/usr/share/nginx/html:ro
       - ./nginx:/etc/nginx:ro
+
+  uwsgisite1:
+    image: uwsgi:latest
+    container_name: uwsgisite1
+    ports:
+      - 9877:8001
+    volumes:
+      - ./django:/usr/share/django:ro
+    command: uwsgi --socket :8001 --wsgi-file /usr/share/django/site1/test.py
