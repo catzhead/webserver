@@ -14,12 +14,14 @@ Django applications are located in django/, and mounted as /usr/share/django
 in the uwsgix image.
 
 First, build the docker image for the uwsgi server:
+
     cd uwsgi-image
     docker build -t uwsgi .
 
 Then update docker-compose.yml to match the app name in the django path.
 
 Launch docker-compose:
+
     docker-compose up
 
 Note: it is mandatory to launch everything at once using the up command so that
