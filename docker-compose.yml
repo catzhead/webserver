@@ -18,4 +18,4 @@ services:
       - 9877:8001
     volumes:
       - ./django:/usr/share/django:ro
-    command: uwsgi --socket :8001 --wsgi-file /usr/share/django/site1/test.py
+    command: uwsgi --ini /usr/share/django/site1/uwsgi.ini
