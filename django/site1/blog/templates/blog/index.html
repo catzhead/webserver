@@ -1,0 +1,247 @@
+{% load static %}
+<html>
+<head>
+  <title>Cytoscape test</title>
+  <script src="{% static "blog/js/cytoscape.min.js" %}"></script>
+</head>
+
+<style>
+  .cygraph {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    top: 0px;
+    left: 0px;
+  }
+
+  .btn-class{
+   display: inline-block;
+   border:1px solid #BFBFBF;
+   color: #8C8C8C;
+   border-radius: 30px;
+   -webkit-border-radius: 30px;
+   -moz-border-radius: 30px;
+   font-family: Verdana;
+   width: auto;
+   height: auto;
+   font-size: 16px;
+   padding: 0px 17px;
+   background-color: #FCFAF9;
+  }
+
+  .btn-class:hover, .btn-class:active{
+   border:1px solid #BFBFBF;
+   color: #8C8C8C;
+   background-color: #E8E8E8;
+  }
+</style>
+
+<body>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div id="cytowidget">
+    <div id="cy" class='cygraph'></div>
+    <div id="buttons"></div>
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <div>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  </div>
+  <script language="javascript" src="{% static "blog/js/data_generated.js" %}">
+
+  </script>
+
+  <script language="javascript">
+
+  cyElement = document.getElementById('buttons');
+
+  var buttonReload = document.createElement('input');
+  buttonReload.setAttribute('type', 'button');
+  buttonReload.setAttribute('name', 'reset');
+  buttonReload.setAttribute('value', 'reset');
+  buttonReload.setAttribute('class', 'btn-class');
+  cyElement.appendChild(buttonReload);
+  buttonReload.onclick = reloadCytoscape;
+
+  var buttonLayout = document.createElement('input');
+  buttonLayout.setAttribute('type', 'button');
+  buttonLayout.setAttribute('name', 'layout');
+  buttonLayout.setAttribute('value', 'layout');
+  buttonLayout.setAttribute('class', 'btn-class');
+  cyElement.appendChild(buttonLayout);
+  buttonLayout.onclick = changeLayout;
+
+
+  var cy = cytoscape({
+    container: document.getElementById('cy'),
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "width": "label",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#ffffff",
+          "border-width": "1",
+          "border-style": "dotted",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      }
+    ]
+  });
+
+  var prev_source = 'node0';
+  cy.add({
+    data: {id: prev_source}
+  });
+
+  for (var i = 1; i < 10; i++) {
+    var source = 'node' + i;
+
+    cy.add({
+      data: {id: source}
+    });
+
+    cy.add({
+      data: {
+        id: 'genedge' + i,
+        source: source,
+        target: prev_source
+      }
+    });
+
+    prev_source = source;
+  }
+
+  cy.add({
+    data: {
+      id: 'edge_loop',
+      source: 'node0',
+      target: 'node0'
+    }
+  });
+
+  cy.add(externalData);
+
+  var layouts = [
+    'null',
+    'random',
+    'preset',
+    'grid',
+    'circle',
+    'concentric',
+    'breadthfirst',
+    'cose'
+  ];
+
+  var currentLayout = 4;
+
+  function setLayout() {
+    var layout = cy.layout({
+      name: layouts[currentLayout]
+    });
+
+    buttonLayout.setAttribute('value', layouts[currentLayout]);
+
+    layout.run();
+  }
+
+  function changeLayout() {
+    currentLayout++;
+    if (currentLayout >= layouts.length) {
+      currentLayout = 0;
+    }
+    setLayout();
+  }
+
+  function reloadCytoscape() {
+    var layout = cy.layout({
+      name: 'circle'
+    });
+    layout.run();
+  }
+
+  setLayout();
+
+  </script>
+
+  <h1>Graph 2</h1>
+  <div id="cytowidget2">
+    <div id="cy2" class='cygraph'></div>
+  </div>
+  <script>
+  var cy2 = cytoscape({
+    container: document.getElementById('cy2'),
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "width": "label",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#ffffff",
+          "border-width": "1",
+          "border-style": "dotted",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      }
+    ]
+  });
+
+  cy2.add({
+    data: { id: 'node0' }
+  });
+
+  cy2.add({
+    data: { id: 'node1' }
+  });
+
+  cy2.add({
+    data: {
+      id: 'edge0',
+      source: 'node0',
+      target: 'node1'
+    }
+  });
+
+  var layout2 = cy2.layout({
+    name: 'circle'
+  });
+  layout2.run();
+
+  </script>
+</body>
+
+
+</html>
