@@ -1,14 +1,29 @@
-# nginx in docker
+# blog app in django with graphing capabilities
 
-## Basic webserver
+## django app
+
+### development
+
+To run the django development server on port 8001:
+
+    cd django/site1
+    python manage.py runserver 8001
+
+Server will be accessible at localhost:8001
+
+## webserver
+
+### nginx
 
 The following directories are mapped to the nginx default locations:
 * nginx to /etc/nginx
 * html to /usr/share/nginx/html
 
-Launch with `docker-compose run --service-ports nginx`
+To launch nginx alone:
 
-## With django applications
+    docker-compose run --service-ports nginx
+
+### nginx serving django applications with uwsgi
 
 Django applications are located in django/, and mounted as /usr/share/django
 in the uwsgix image.
