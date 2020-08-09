@@ -1,0 +1,14 @@
+-
+  file: test1.md
+  author: profile1
+  pub_date: 2020-08-08
+  tags:
+    - topic1
+    - topic2
+-
+  file: test2.md
+  author: profile2
+  pub_date: 2020-08-07
+  tags:
+    - topic1
+    - topic3
