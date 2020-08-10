@@ -1,7 +1,9 @@
 from ._md_converter import md_convert
 from blog.models import BlogPost, Author
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand, CommandError
+from django.utils.timezone import make_aware
 import os
 import time
 import yaml
@@ -77,10 +79,16 @@ class Command(BaseCommand):
                                        f'referenced in file {filename} '
                                        'does not exist in the authors table')
 
+                # a date is always naive, so we need to convert it to datetime
+                # so that make_aware can convert it to an aware object
+                pub_date = blog_post['pub_date']
+                pub_date = datetime(pub_date.year, pub_date.month,
+                                    pub_date.day)
+
                 db_post = BlogPost(
                     content=md_convert(filename),
                     author=author,
-                    pub_date=blog_post['pub_date'],
+                    pub_date=make_aware(pub_date),
                     original_filename=filename)
 
                 db_post.save()
