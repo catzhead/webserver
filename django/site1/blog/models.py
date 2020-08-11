@@ -13,3 +13,4 @@ class BlogPost(models.Model):
     original_filename = models.CharField(max_length=4096)
     content = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    title = models.CharField(max_length=400)

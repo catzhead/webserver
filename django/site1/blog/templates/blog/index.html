@@ -1,247 +1,109 @@
 {% load static %}
 <html>
 <head>
-  <title>Cytoscape test</title>
-  <script src="{% static "blog/js/cytoscape.min.js" %}"></script>
+  <link href="{% static "blog/css/bootstrap.min.css" %}" rel="stylesheet">
+  <script src="{% static "blog/js/bootstrap.min.js" %}"></script>
+  <script src="{% static "blog/js/jquery.min.js" %}"></script>
+
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="{% static "blog/css/clean-blog.css" %}" rel="stylesheet">
+
 </head>
-
-<style>
-  .cygraph {
-    width: 100%;
-    height: 50%;
-    position: relative;
-    top: 0px;
-    left: 0px;
-  }
-
-  .btn-class{
-   display: inline-block;
-   border:1px solid #BFBFBF;
-   color: #8C8C8C;
-   border-radius: 30px;
-   -webkit-border-radius: 30px;
-   -moz-border-radius: 30px;
-   font-family: Verdana;
-   width: auto;
-   height: auto;
-   font-size: 16px;
-   padding: 0px 17px;
-   background-color: #FCFAF9;
-  }
-
-  .btn-class:hover, .btn-class:active{
-   border:1px solid #BFBFBF;
-   color: #8C8C8C;
-   background-color: #E8E8E8;
-  }
-</style>
-
 <body>
-  <div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  <!-- Navigation -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="post.html">Sample Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  -->
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url({% static 'blog/img/home-bg.jpg' %})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Testing Blog</h1>
+            <span class="subheading">One blog post at a time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <!--
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+              Man must explore, and this is exploration at its greatest
+            </h2>
+            <h3 class="post-subtitle">
+              Problems look mighty small from 150 miles up
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">Start Bootstrap</a>
+            on September 24, 2019</p>
+        </div>
+        <hr>
+        -->
+
+        {% for blog_post in blog_posts %}
+
+        <div class="post-preview">
+          <a href="post.html">
+            <h2 class="post-title">
+              {{ blog_post.title }}
+            </h2>
+            <h3 class="post-subtitle">
+              no subtitle for the moment
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">Start Bootstrap</a>
+            on September 24, 2019</p>
+        </div>
+        <hr>
+
+        {% endfor %}
+
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="cytowidget">
-    <div id="cy" class='cygraph'></div>
-    <div id="buttons"></div>
-  </div>
-  <div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-  </div>
-  <div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-  </div>
-  <div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-  </div>
-  <div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-  </div>
-  <script language="javascript" src="{% static "blog/js/data_generated.js" %}">
 
-  </script>
-
-  <script language="javascript">
-
-  cyElement = document.getElementById('buttons');
-
-  var buttonReload = document.createElement('input');
-  buttonReload.setAttribute('type', 'button');
-  buttonReload.setAttribute('name', 'reset');
-  buttonReload.setAttribute('value', 'reset');
-  buttonReload.setAttribute('class', 'btn-class');
-  cyElement.appendChild(buttonReload);
-  buttonReload.onclick = reloadCytoscape;
-
-  var buttonLayout = document.createElement('input');
-  buttonLayout.setAttribute('type', 'button');
-  buttonLayout.setAttribute('name', 'layout');
-  buttonLayout.setAttribute('value', 'layout');
-  buttonLayout.setAttribute('class', 'btn-class');
-  cyElement.appendChild(buttonLayout);
-  buttonLayout.onclick = changeLayout;
-
-
-  var cy = cytoscape({
-    container: document.getElementById('cy'),
-    style: [
-      {
-        selector: 'node',
-        style: {
-          "label": "data(id)",
-          "width": "label",
-          "text-valign": "center",
-          "text-halign": "center",
-          "shape": "round-rectangle",
-          "background-color": "#ffffff",
-          "border-width": "1",
-          "border-style": "dotted",
-          "border-color": "#000000",
-        }
-      },
-      {
-        selector: 'edge',
-        style: {
-          "width": "1",
-          "curve-style": "straight",
-          "target-arrow-shape": "triangle",
-          "target-arrow-color": "#ff0000"
-        }
-      }
-    ]
-  });
-
-  var prev_source = 'node0';
-  cy.add({
-    data: {id: prev_source}
-  });
-
-  for (var i = 1; i < 10; i++) {
-    var source = 'node' + i;
-
-    cy.add({
-      data: {id: source}
-    });
-
-    cy.add({
-      data: {
-        id: 'genedge' + i,
-        source: source,
-        target: prev_source
-      }
-    });
-
-    prev_source = source;
-  }
-
-  cy.add({
-    data: {
-      id: 'edge_loop',
-      source: 'node0',
-      target: 'node0'
-    }
-  });
-
-  cy.add(externalData);
-
-  var layouts = [
-    'null',
-    'random',
-    'preset',
-    'grid',
-    'circle',
-    'concentric',
-    'breadthfirst',
-    'cose'
-  ];
-
-  var currentLayout = 4;
-
-  function setLayout() {
-    var layout = cy.layout({
-      name: layouts[currentLayout]
-    });
-
-    buttonLayout.setAttribute('value', layouts[currentLayout]);
-
-    layout.run();
-  }
-
-  function changeLayout() {
-    currentLayout++;
-    if (currentLayout >= layouts.length) {
-      currentLayout = 0;
-    }
-    setLayout();
-  }
-
-  function reloadCytoscape() {
-    var layout = cy.layout({
-      name: 'circle'
-    });
-    layout.run();
-  }
-
-  setLayout();
-
-  </script>
-
-  <h1>Graph 2</h1>
-  <div id="cytowidget2">
-    <div id="cy2" class='cygraph'></div>
-  </div>
-  <script>
-  var cy2 = cytoscape({
-    container: document.getElementById('cy2'),
-    style: [
-      {
-        selector: 'node',
-        style: {
-          "label": "data(id)",
-          "width": "label",
-          "text-valign": "center",
-          "text-halign": "center",
-          "shape": "round-rectangle",
-          "background-color": "#ffffff",
-          "border-width": "1",
-          "border-style": "dotted",
-          "border-color": "#000000",
-        }
-      },
-      {
-        selector: 'edge',
-        style: {
-          "width": "1",
-          "curve-style": "straight",
-          "target-arrow-shape": "triangle",
-          "target-arrow-color": "#ff0000"
-        }
-      }
-    ]
-  });
-
-  cy2.add({
-    data: { id: 'node0' }
-  });
-
-  cy2.add({
-    data: { id: 'node1' }
-  });
-
-  cy2.add({
-    data: {
-      id: 'edge0',
-      source: 'node0',
-      target: 'node1'
-    }
-  });
-
-  var layout2 = cy2.layout({
-    name: 'circle'
-  });
-  layout2.run();
-
-  </script>
 </body>
-
-
 </html>
