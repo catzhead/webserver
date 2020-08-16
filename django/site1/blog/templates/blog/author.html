@@ -44,8 +44,8 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>Testing Blog</h1>
-            <span class="subheading">One blog post at a time</span>
+            <h1>{{ author.name }}</h1>
+            <span class="subheading">{{ author.email }}</span>
           </div>
         </div>
       </div>
@@ -54,35 +54,7 @@
 
   <!-- Main Content -->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-
-        {% for blog_post in blog_posts %}
-
-        <div class="post-preview">
-          <a href="{% url 'blog:blogpost' blog_post.id %}">
-            <h2 class="post-title">
-              {{ blog_post.title }}
-            </h2>
-            <h3 class="post-subtitle">
-              no subtitle for the moment
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="{% url 'blog:author_bio' blog_post.author.id %}">
-            {{ blog_post.author.name }}</a>
-            on {{ blog_post.pub_date|date:'M. j, Y' }}</p>
-        </div>
-        <hr>
-
-        {% endfor %}
-
-        <!-- Pager -->
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-        </div>
-      </div>
-    </div>
+    {{ author.bio|safe }}
   </div>
 
 </body>
