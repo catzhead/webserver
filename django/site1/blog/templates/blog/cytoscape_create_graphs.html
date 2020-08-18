@@ -1,0 +1,79 @@
+{% load static %}
+
+<script src="{% static "blog/js/cytoscape.min.js" %}"></script>
+<link href="{% static "blog/css/cytoscape.css" %}" rel="stylesheet">
+
+<script language="javascript">
+
+/* This script expects to find one div per graph with id='cyX' (x starts at 1).
+For each div, the script expects a variable cytoscape_data_cyX with the data
+for this graph. */
+
+var divId;
+var div_prefix = 'cy';
+
+console.log('creating graphs');
+
+var cy_instances = [];
+
+for (var i=1; divId = document.getElementById(div_prefix + i); i++) {
+  console.log('dealing with ' + divId);
+  var cy = cytoscape({
+    container: divId,
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "height": "label",
+          "width": "label",
+          "padding": "5",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#ffffff",
+          "border-width": "1",
+          "border-style": "line",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      }
+    ]
+  });
+
+  cy_instances.push(cy);
+
+  var cydata_variable_name = 'cytoscape_data_' + div_prefix + i;
+  cy.add(window[cydata_variable_name]);
+
+  cy.on('tap', 'node', function(evt){
+    var node = evt.target;
+    console.log('tapped ' + node.id());
+  });
+
+  cy.userZoomingEnabled(false);
+
+  var layout = cy.layout({
+    name: 'circle'
+  });
+  layout.run();
+}
+
+console.log('number of cytoscape graphs instances: ' + cy_instances.length);
+
+$(document).ready(function() {
+  cy_instances.forEach(function(item, index) {
+    console.log('resizing ' + item);
+    item.fit();
+  });
+});
+
+</script>

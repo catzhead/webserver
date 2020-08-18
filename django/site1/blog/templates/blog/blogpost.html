@@ -53,9 +53,19 @@
   </header>
 
   <!-- Main Content -->
-  <div class="container">
-    {{ blog_post.content|safe }}
-  </div>
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {{ blog_post.content|safe }}
+        </div>
+      </div>
+    </div>
+  </article>
 
 </body>
+
+<footer>
+  {% include 'blog/cytoscape_create_graphs.html' %}
+</footer>
 </html>

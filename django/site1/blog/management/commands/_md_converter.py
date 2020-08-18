@@ -16,14 +16,13 @@ def graph_to_json(dotstring):
 
     for graph in dotobject:
         node_list = []
-        graph_as_dict = []
 
         for i, edge in enumerate(graph.get_edges()):
             for temp_node in [edge.get_source(), edge.get_destination()]:
                 if temp_node not in node_list:
                     node_list.append(temp_node)
                     node_dict = {'id': temp_node}
-                    graph_as_dict.append({'data': node_dict})
+                    graphs_as_json.append({'data': node_dict})
 
             edge_dict = {
                 'id': 'edge' + str(i),
@@ -31,9 +30,7 @@ def graph_to_json(dotstring):
                 'target': edge.get_destination()
             }
 
-            graph_as_dict.append({'data': edge_dict})
-
-        graphs_as_json.append(json.dumps(graph_as_dict))
+            graphs_as_json.append({'data': edge_dict})
 
     return graphs_as_json
 
@@ -57,6 +54,10 @@ class DotBlockProcessor(BlockProcessor):
 
     RE = re.compile(r'^..\s+(\w+)\s*::')
 
+    def __init__(self, *args, **kwargs):
+        super(DotBlockProcessor, self).__init__(*args, **kwargs)
+        self.cy_index = 1
+
     def test(self, parent, block):
         return self.RE.search(block)
 
@@ -74,14 +75,20 @@ class DotBlockProcessor(BlockProcessor):
 
             if block_type is not None:
                 div = etree.SubElement(parent, 'div')
-                div.set('gtype', block_type)
+                div_id = 'cy' + str(self.cy_index)
+                div.set('id', div_id)
+                div.set('class', 'cygraph big')
+                self.cy_index += 1
+
+                script = etree.SubElement(div, 'script')
+                script.set('language', 'javascript')
+                script.text = 'cytoscape_data_' + div_id + ' = ' +\
+                              str(graph_to_json(block)) + ';'
         else:
             div = self.lastChild(parent)
 
         if rest:
             blocks.insert(0, rest)
-
-        div.text = str(graph_to_json(block))
 
 
 class AddAttrExt(Extension):
@@ -103,3 +110,13 @@ def md_convert(filename):
         extensions = [AddAttrExt(), DotBlockExt()]
         html = markdown.markdown(f.read(), extensions=extensions)
         return html
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description='markdown converter for'
+                                     'django blog application')
+    parser.add_argument('md_filename', nargs=1, help='markdown file name')
+    args = parser.parse_args()
+
+    print(md_convert(args.md_filename[0]))
