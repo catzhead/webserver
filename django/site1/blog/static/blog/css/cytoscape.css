@@ -29,6 +29,13 @@
   font-size: 16px;
   padding: 0px 17px;
   background-color: #FCFAF9;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.graph:hover .btn-class {
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 .btn-class:hover, .btn-class:active{

@@ -56,7 +56,7 @@ class DotBlockProcessor(BlockProcessor):
 
     def __init__(self, *args, **kwargs):
         super(DotBlockProcessor, self).__init__(*args, **kwargs)
-        self.cy_index = 1
+        self.cy_index = 0
 
     def test(self, parent, block):
         return self.RE.search(block)
@@ -74,18 +74,22 @@ class DotBlockProcessor(BlockProcessor):
             block_type = m.group(1).lower()
 
             if block_type is not None:
-                div = etree.SubElement(parent, 'div')
-                div_id = 'cy' + str(self.cy_index)
-                div.set('id', div_id)
-                div.set('class', 'cygraph big')
-                self.cy_index += 1
+                div_graph = etree.SubElement(parent, 'div')
+                div_graph_id = 'graph' + str(self.cy_index)
+                div_graph.set('id', div_graph_id)
+                div_graph.set('class', 'graph')
 
-                script = etree.SubElement(div, 'script')
+                div_cy = etree.SubElement(div_graph, 'div')
+                div_cy_id = 'cy' + str(self.cy_index)
+                div_cy.set('id', div_cy_id)
+                div_cy.set('class', 'cygraph big')
+
+                script = etree.SubElement(div_cy, 'script')
                 script.set('language', 'javascript')
-                script.text = 'cytoscape_data_' + div_id + ' = ' +\
+                script.text = 'cytoscape_data_' + div_cy_id + ' = ' +\
                               str(graph_to_json(block)) + ';'
-        else:
-            div = self.lastChild(parent)
+
+                self.cy_index += 1
 
         if rest:
             blocks.insert(0, rest)
