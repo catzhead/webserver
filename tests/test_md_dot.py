@@ -40,7 +40,16 @@ def graph_to_json(dotstring):
 
 class AddAttrTree(Treeprocessor):
     def run(self, root):
+        highest_heading = None
+        new_highest_heading = 3  # h3 is the top level is the result
+
+        for heading in range(1, 7):
+            if root.find('h' + str(heading)):
+                highest_heading = heading
+                break
+
         for h2 in root.iter('h2'):
+            h2.tag = 'h4'
             h2.attrib['class'] = 'yo'
 
 
