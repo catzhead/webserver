@@ -1,0 +1,45 @@
+.cygraph {
+  position: relative;
+  width: 610px;
+  height: 300px;
+  top: 0px;
+  left: 0px;
+}
+
+.cygraph.big {
+  height: 400px;
+}
+
+.cygraph.small {
+  height: 100px;
+}
+
+.btn-class{
+  display: inline-block;
+  position: relative;
+  bottom: 30px;
+  border:1px solid #BFBFBF;
+  color: #8C8C8C;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  font-family: Verdana;
+  width: auto;
+  height: auto;
+  font-size: 16px;
+  padding: 0px 17px;
+  background-color: #FCFAF9;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.graph:hover .btn-class {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.btn-class:hover, .btn-class:active{
+  border:1px solid #BFBFBF;
+  color: #8C8C8C;
+  background-color: #E8E8E8;
+}

@@ -1,0 +1,133 @@
+<html>
+<head>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/cytoscape.min.js"></script>
+  <link href="css/cytoscape.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!--INSERT_DATA_HERE-->
+
+</body>
+
+<footer>
+<script language="javascript">
+
+/* This script expects to find one div per graph with id='cyX' (x starts at 1).
+For each div, the script expects a variable cytoscape_data_cyX with the data
+for this graph. */
+
+var divId;
+var divPrefix = 'cy';
+
+console.log('creating graphs');
+
+var cyInstances = [];
+
+for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
+  console.log('dealing with ' + divId);
+  var cy = cytoscape({
+    container: divId,
+    style: [
+      {
+        selector: 'node',
+        style: {
+          "label": "data(id)",
+          "height": "50",
+          "width": "50",
+          "padding": "5",
+          "text-valign": "center",
+          "text-halign": "center",
+          "shape": "round-rectangle",
+          "background-color": "#dddddd",
+          "border-width": "1",
+          "border-style": "line",
+          "border-color": "#000000",
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "width": "1",
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "target-arrow-color": "#ff0000"
+        }
+      },
+      {
+        selector: '.yo',
+        style: {
+          "background-color": "#aaccee",
+        }
+      },
+      {
+        selector: '.yo2',
+        style: {
+          "background-color": "#22ccee",
+        }
+      }
+    ]
+  });
+
+  cyInstances.push(cy);
+
+  var cydataVariableName = 'cytoscape_data_' + divPrefix + i;
+  cy.add(window[cydataVariableName]);
+
+  cy.on('tap', 'node', function(evt){
+    var node = evt.target;
+    console.log('tapped ' + node.id());
+  });
+
+  cy.userZoomingEnabled(false);
+
+  var layout = cy.layout({
+    name: 'circle'
+  });
+  layout.run();
+
+}
+
+console.log('number of cytoscape graphs instances: ' + cyInstances.length);
+
+$(document).ready(function() {
+  cyInstances.forEach(function(item, index) {
+    console.log('resizing ' + item);
+    item.fit();
+  });
+});
+
+var divGraphId;
+var divGraphPrefix = 'graph';
+
+console.log('adding buttons');
+
+for (var i=0; divGraphId = document.getElementById(divGraphPrefix + i); i++) {
+  console.log('dealing with ' + divGraphId);
+
+  var buttonReload = document.createElement('input');
+  buttonReload.setAttribute('type', 'button');
+  buttonReload.setAttribute('name', 'reset' + i);
+  buttonReload.setAttribute('value', 'reset');
+  buttonReload.setAttribute('class', 'btn-class');
+  buttonReload.setAttribute('cyid', i);
+
+  divGraphId.appendChild(buttonReload);
+
+  buttonReload.onclick = function() {
+    id = this.getAttribute('cyid');
+    console.log('refitting ' + id);
+    var layout = cyInstances[id].layout({
+      name: 'circle'
+    });
+    layout.run();
+    cyInstances[id].fit();
+  }
+}
+
+</script>
+</footer>
+</html>
