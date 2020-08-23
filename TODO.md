@@ -2,3 +2,7 @@
 internet url or a static image)
 - [ ] add a photo for the author bio page
 - [ ] add qualifiers to graphviz tag in the md
+- [ ] manage the static files so that a uwsgi server can serve them
+- [ ] improve error messages when there is an error in the graphs in the md
+- [ ] accept empty lines in a block for a graph description
+- [ ] support finite automatons
