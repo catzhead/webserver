@@ -15,6 +15,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
         a -> f;
         f -> c;
       }
+      g -> d;
     }
 
 ## Title 1.1
@@ -24,12 +25,12 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 <div class="graph" id="graph2">
 <div class="cygraph big" id="cy2">
 <script language="javascript">cytoscape_data_cy2 = [
-{'data': {'id': 'a'}, 'classes':['yo']},
-{'data': {'id': 'b'}, 'classes':['yo']},
+{'data': {'id': 'a'}, 'classes':['level0']},
+{'data': {'id': 'b'}, 'classes':['level0']},
 {'data': {'id': 'edge0', 'source': 'a', 'target': 'b'}},
 {'data': {'id': 'edge1', 'source': 'b', 'target': 'a'}},
-{'data': {'id': 'a-a', 'parent': 'a'}, 'classes':['yo2']},
-{'data': {'id': 'a-b', 'parent': 'a'}, 'classes':['yo2']}
+{'data': {'id': 'a-a', 'parent': 'a'}, 'classes':['level1']},
+{'data': {'id': 'a-b', 'parent': 'a'}, 'classes':['level1']}
 ];
 </script>
 </div>

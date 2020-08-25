@@ -1,4 +1,3 @@
-import json
 import markdown
 import pydot
 import re
@@ -9,28 +8,64 @@ from markdown.treeprocessors import Treeprocessor
 from markdown.blockprocessors import BlockProcessor
 
 
+def analyze_graph(graph, node_list=None, level=0):
+    graph_as_json = []
+
+    if node_list is None:
+        node_list = []
+
+    # the top graph is called 'G', we will ignore it globally
+    parent_node = graph.get_name()
+
+    if parent_node != 'G' and parent_node not in node_list:
+        node_list.append(parent_node)
+        node_dict = {'id': parent_node}
+
+        classes_list = ['level' + str(level)]
+        if len(graph.get_nodes()) > 0 or len(graph.get_subgraphs()) > 0:
+            classes_list.append('hasChildren')
+
+        graph_as_json.append({'data': node_dict,
+                              'classes': classes_list})
+
+    for i, node in enumerate(graph.get_nodes()):
+        if node not in node_list:
+            node_list.append(node)
+
+    for i, edge in enumerate(graph.get_edges()):
+        for temp_node in [edge.get_source(), edge.get_destination()]:
+            if temp_node not in node_list:
+                node_list.append(temp_node)
+                node_dict = {'id': temp_node, 'parent': parent_node}
+                if parent_node != 'G':
+                    graph_as_json.append({'data': node_dict})
+                else:
+                    graph_as_json.append({'data': node_dict})
+
+        edge_dict = {
+            'id': 'edge' + '_' + parent_node + '_' + str(i),
+            'source': edge.get_source(),
+            'target': edge.get_destination()
+        }
+
+        graph_as_json.append({'data': edge_dict})
+
+    for g in graph.get_subgraphs():
+        subgraph_as_json, sub_node_list = analyze_graph(g, node_list, level+1)
+        graph_as_json = graph_as_json + subgraph_as_json
+        node_list = node_list + sub_node_list
+
+    return graph_as_json, node_list
+
+
 def graph_to_json(dotstring):
     dotobject = pydot.graph_from_dot_data(dotstring)
 
     graphs_as_json = []
 
     for graph in dotobject:
-        node_list = []
-
-        for i, edge in enumerate(graph.get_edges()):
-            for temp_node in [edge.get_source(), edge.get_destination()]:
-                if temp_node not in node_list:
-                    node_list.append(temp_node)
-                    node_dict = {'id': temp_node}
-                    graphs_as_json.append({'data': node_dict})
-
-            edge_dict = {
-                'id': 'edge' + str(i),
-                'source': edge.get_source(),
-                'target': edge.get_destination()
-            }
-
-            graphs_as_json.append({'data': edge_dict})
+        graph_as_json, _ = analyze_graph(graph)
+        graphs_as_json = graphs_as_json + graph_as_json
 
     return graphs_as_json
 

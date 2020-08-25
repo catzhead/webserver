@@ -58,13 +58,13 @@ for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
         }
       },
       {
-        selector: '.yo',
+        selector: '.level0',
         style: {
           "background-color": "#aaccee",
         }
       },
       {
-        selector: '.yo2',
+        selector: '.level1',
         style: {
           "background-color": "#22ccee",
         }
@@ -85,7 +85,7 @@ for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
   cy.userZoomingEnabled(false);
 
   var layout = cy.layout({
-    name: 'circle'
+    name: 'breadthfirst'
   });
   layout.run();
 
