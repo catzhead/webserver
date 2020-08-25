@@ -8,77 +8,108 @@ from markdown.treeprocessors import Treeprocessor
 from markdown.blockprocessors import BlockProcessor
 
 
-def analyze_graph(graph, node_list=None, level=0):
-    graph_as_json = []
-
+def analyze_graph(graph, node_list=None, edge_list=None, level=0, parent=None):
     if node_list is None:
-        node_list = []
+        node_list = {}
+
+    if edge_list is None:
+        edge_list = []
 
     # the top graph is called 'G', we will ignore it globally
-    parent_node = graph.get_name()
+    subgraph_node = graph.get_name()
 
-    if parent_node != 'G' and parent_node not in node_list:
-        node_list.append(parent_node)
-        node_dict = {'id': parent_node}
-
-        classes_list = ['level' + str(level)]
+    if subgraph_node != 'G' and subgraph_node not in node_list.keys():
+        has_children = False
         if len(graph.get_nodes()) > 0 or len(graph.get_subgraphs()) > 0:
-            classes_list.append('hasChildren')
+            has_children = True
 
-        graph_as_json.append({'data': node_dict,
-                              'classes': classes_list})
+        node_list[subgraph_node] = {'level': level,
+                                    'has_children': has_children}
 
-    for i, node in enumerate(graph.get_nodes()):
-        if node not in node_list:
-            node_list.append(node)
+        if parent is not None:
+            node_list[subgraph_node]['parent'] = parent
+
+    local_node_list = graph.get_nodes()
 
     for i, edge in enumerate(graph.get_edges()):
+
         for temp_node in [edge.get_source(), edge.get_destination()]:
-            if temp_node not in node_list:
-                node_list.append(temp_node)
-                node_dict = {'id': temp_node, 'parent': parent_node}
-                if parent_node != 'G':
-                    graph_as_json.append({'data': node_dict})
-                else:
-                    graph_as_json.append({'data': node_dict})
+            local_node_list.append(temp_node)
 
-        edge_dict = {
-            'id': 'edge' + '_' + parent_node + '_' + str(i),
-            'source': edge.get_source(),
-            'target': edge.get_destination()
-        }
+        edge_dict = {'source': edge.get_source(),
+                     'target': edge.get_destination()}
 
-        graph_as_json.append({'data': edge_dict})
+        edge_list.append(edge_dict)
+
+    for i, node in enumerate(local_node_list):
+        if node not in node_list.keys():
+            node_list[node] = {'level': level,
+                               'has_children': False,
+                               'parent': subgraph_node}
+        elif subgraph_node != 'G' and node_list[node]['level'] < level:
+            # if a node is defined both in G and in a subgraph,
+            # put it in the lowest subgraph
+            node_list[node]['parent'] = subgraph_node
+            node_list[node]['level'] = level
 
     for g in graph.get_subgraphs():
-        subgraph_as_json, sub_node_list = analyze_graph(g, node_list, level+1)
-        graph_as_json = graph_as_json + subgraph_as_json
-        node_list = node_list + sub_node_list
+        sub_node_list, sub_edge_list = \
+            analyze_graph(g, node_list, edge_list, level+1, subgraph_node)
+        node_list = {**node_list, **sub_node_list}
+        edge_list = edge_list + sub_edge_list
 
-    return graph_as_json, node_list
+    return node_list, edge_list
 
 
 def graph_to_json(dotstring):
     dotobject = pydot.graph_from_dot_data(dotstring)
 
     graphs_as_json = []
+    node_list = {}
+    edge_list = []
 
     for graph in dotobject:
-        graph_as_json, _ = analyze_graph(graph)
-        graphs_as_json = graphs_as_json + graph_as_json
+        graph_node_list, graph_edge_list = analyze_graph(graph)
+        node_list = {**node_list, **graph_node_list}
+        edge_list = edge_list + graph_edge_list
+
+    for node in node_list.keys():
+        node_dict = {'id': node}
+
+        parent = node_list[node]['parent']
+        if parent is not None and parent != 'G':
+            node_dict['parent'] = parent
+
+        classes_list = ['level' + str(node_list[node]['level'])]
+
+        if node_list[node]['has_children']:
+            classes_list.append('hasChildren')
+        else:
+            classes_list.append('hasNoChildren')
+
+        graphs_as_json.append({'data': node_dict, 'classes': classes_list})
+
+    for i, edge in enumerate(edge_list):
+        edge_dict = {
+            'id': 'edge' + str(i),
+            'source': edge['source'],
+            'target': edge['target']
+        }
+
+        graphs_as_json.append({'data': edge_dict})
 
     return graphs_as_json
 
 
 class AddAttrTree(Treeprocessor):
     def run(self, root):
-        highest_heading = None
-        new_highest_heading = 3  # h3 is the top level in the result
+        # highest_heading = None
+        # new_highest_heading = 3  # h3 is the top level in the result
 
-        for heading in range(1, 7):
-            if root.find('h' + str(heading)):
-                highest_heading = heading
-                break
+        # for heading in range(1, 7):
+        #    if root.find('h' + str(heading)):
+        #        highest_heading = heading
+        #        break
 
         for h2 in root.iter('h2'):
             h2.tag = 'h4'
