@@ -7,8 +7,10 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
       subgraph cluster_0 {
         label="subgraph A";
         a -> b;
-        b -> c;
-        c -> d;
+        subgraph subcluster_0 {
+          b -> c;
+          c -> d;
+        }
       }
       subgraph cluster_1 {
         label="subgraph B";

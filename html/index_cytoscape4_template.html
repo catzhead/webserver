@@ -54,19 +54,32 @@ for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
           "width": "1",
           "curve-style": "straight",
           "target-arrow-shape": "triangle",
-          "target-arrow-color": "#ff0000"
+          "target-arrow-color": "#333333"
         }
       },
       {
         selector: '.level0',
         style: {
-          "background-color": "#aaccee",
+          "background-color": "#e6f2ff",
         }
       },
       {
         selector: '.level1',
         style: {
-          "background-color": "#22ccee",
+          "background-color": "#b3d9ff",
+        }
+      },
+      {
+        selector: '.level2',
+        style: {
+          "background-color": "#99ccff",
+        }
+      },
+      {
+        selector: '.hasChildren',
+        style: {
+          "text-valign": "top",
+          "padding": "8"
         }
       }
     ]
@@ -96,6 +109,10 @@ console.log('number of cytoscape graphs instances: ' + cyInstances.length);
 $(document).ready(function() {
   cyInstances.forEach(function(item, index) {
     console.log('resizing ' + item);
+    var layout = cyInstances[index].layout({
+      name: 'breadthfirst'
+    });
+    layout.run();
     item.fit();
   });
 });
@@ -121,7 +138,7 @@ for (var i=0; divGraphId = document.getElementById(divGraphPrefix + i); i++) {
     id = this.getAttribute('cyid');
     console.log('refitting ' + id);
     var layout = cyInstances[id].layout({
-      name: 'circle'
+      name: 'breadthfirst'
     });
     layout.run();
     cyInstances[id].fit();

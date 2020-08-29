@@ -18,17 +18,6 @@ def analyze_graph(graph, node_list=None, edge_list=None, level=0, parent=None):
     # the top graph is called 'G', we will ignore it globally
     subgraph_node = graph.get_name()
 
-    if subgraph_node != 'G' and subgraph_node not in node_list.keys():
-        has_children = False
-        if len(graph.get_nodes()) > 0 or len(graph.get_subgraphs()) > 0:
-            has_children = True
-
-        node_list[subgraph_node] = {'level': level,
-                                    'has_children': has_children}
-
-        if parent is not None:
-            node_list[subgraph_node]['parent'] = parent
-
     local_node_list = graph.get_nodes()
 
     for i, edge in enumerate(graph.get_edges()):
@@ -51,6 +40,18 @@ def analyze_graph(graph, node_list=None, edge_list=None, level=0, parent=None):
             # put it in the lowest subgraph
             node_list[node]['parent'] = subgraph_node
             node_list[node]['level'] = level
+
+    if subgraph_node != 'G' and subgraph_node not in node_list.keys():
+        has_children = False
+        if len(local_node_list) > 0:
+            has_children = True
+
+        # the subgraph is in fact part of the previous level
+        node_list[subgraph_node] = {'level': level - 1,
+                                    'has_children': has_children}
+
+        if parent is not None:
+            node_list[subgraph_node]['parent'] = parent
 
     for g in graph.get_subgraphs():
         sub_node_list, sub_edge_list = \
