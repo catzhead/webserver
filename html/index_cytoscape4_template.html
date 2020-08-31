@@ -79,7 +79,8 @@ for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
         selector: '.hasChildren',
         style: {
           "text-valign": "top",
-          "padding": "8"
+          "padding": "8",
+          "border-style": "dotted",
         }
       }
     ]
@@ -141,6 +142,31 @@ for (var i=0; divGraphId = document.getElementById(divGraphPrefix + i); i++) {
       name: 'breadthfirst'
     });
     layout.run();
+    cyInstances[id].fit();
+  }
+
+  var buttonSwitchTheme = document.createElement('input');
+  buttonSwitchTheme.setAttribute('type', 'button');
+  buttonSwitchTheme.setAttribute('name', 'switchtheme' + i);
+  buttonSwitchTheme.setAttribute('value', 'theme');
+  buttonSwitchTheme.setAttribute('class', 'btn-class');
+  buttonSwitchTheme.setAttribute('cyid', i);
+
+  divGraphId.appendChild(buttonSwitchTheme);
+
+  buttonSwitchTheme.onclick = function() {
+    id = this.getAttribute('cyid');
+    console.log('switching theme of ' + id);
+    cyInstances[id].style().selector(".level2")
+      .style({"background-color": "#aa0000"}).update();
+/*
+    cyInstances[id].style([{
+      selector: '.level2',
+      style: {
+        "background-color": "#aa0000",
+      }
+    }]);
+*/
     cyInstances[id].fit();
   }
 }
