@@ -6,3 +6,4 @@ internet url or a static image)
 - [ ] improve error messages when there is an error in the graphs in the md
 - [ ] accept empty lines in a block for a graph description
 - [ ] support finite automatons
+- [ ] support 3d models
