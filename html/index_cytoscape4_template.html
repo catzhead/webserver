@@ -95,6 +95,19 @@ for (var i=0; divId = document.getElementById(divPrefix + i); i++) {
   cy.on('tap', 'node', function(evt){
     var node = evt.target;
     console.log('tapped ' + node.id());
+    //node.descendants().edgesTo().move({target: node});
+    //node.descendants().incomers(node.descendants().absoluteComplement()).style('background-color', '#00ff00');
+
+    var descendantsComplement = node.descendants().absoluteComplement();
+
+    var incomers = node.descendants().incomers(descendantsComplement);
+    incomers.style('background-color', '#00ff00');
+
+    var edgesFromThisNode = node.descendants().edgesTo(descendantsComplement);
+    edgesFromThisNode.style('line-color', '#ff0000');
+
+    var edgesToThisNode = node.descendants().edgesTo(node.descendants());
+    edgesToThisNode.style('line-color', '#ffff00');
   });
 
   cy.userZoomingEnabled(false);
