@@ -1,9 +1,11 @@
+import datetime
+
 from blog.models import Author, BlogPost
 from django.shortcuts import get_object_or_404, render
 
 
 def index(request):
-    blog_posts = BlogPost.objects.all()
+    blog_posts = BlogPost.objects.filter(pub_date__lte=datetime.date.today())
     return render(request, 'blog/index.html', {'blog_posts': blog_posts})
 
 

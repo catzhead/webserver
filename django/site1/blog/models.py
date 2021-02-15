@@ -14,3 +14,5 @@ class BlogPost(models.Model):
     content = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=400)
+    header_img = models.CharField(max_length=200,
+                                  default='default-header-bg.jpg')

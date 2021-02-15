@@ -88,6 +88,10 @@ class Command(BaseCommand):
                 pub_date = datetime(pub_date.year, pub_date.month,
                                     pub_date.day)
 
+                header_img = None
+                if 'header_img' in blog_post:
+                    header_img = blog_post['header_img']
+
                 md_as_html = md_convert(filename)
                 soup = BeautifulSoup(md_as_html, 'html.parser')
                 highest_heading = None
@@ -108,6 +112,10 @@ class Command(BaseCommand):
                     content=md_as_html,
                     author=author,
                     pub_date=make_aware(pub_date),
-                    original_filename=filename)
+                    original_filename=filename
+                    )
+
+                if header_img is not None:
+                    db_post.header_img = header_img
 
                 db_post.save()

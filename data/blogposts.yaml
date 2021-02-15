@@ -5,6 +5,7 @@
   tags:
     - topic1
     - topic2
+  header_img: cat-glasses.jpg
 -
   file: test2.md
   author: profile2
