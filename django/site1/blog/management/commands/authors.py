@@ -56,9 +56,16 @@ class Command(BaseCommand):
                     raise CommandError(f'In file {yaml_filename}, '
                                        f'file {filename} does not exist')
 
+                header_img = None
+                if 'header_img' in author:
+                    header_img = author['header_img']
+
                 db_author = Author(pseudo=author['pseudo'],
                                    name=author['name'],
                                    email=author['email'],
                                    bio=md_convert(filename))
+
+                if header_img is not None:
+                    db_author.header_img = header_img
 
                 db_author.save()
