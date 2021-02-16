@@ -1,9 +1,9 @@
 # Infrastructure
-- [ ] add a photo for the author bio page
 - [ ] manage the static files so that a uwsgi server can serve them
 - [ ] update automatically the database on github update
 - [ ] update ansible scripts to install the server automatically
 - [ ] test images in blog posts + how to store them (binaries in github?)
+- [ ] link blog posts with each other
 
 # UI
 - [ ] add previous/next buttons in the blog post page
@@ -19,3 +19,6 @@
 
 # Other
 - [ ] support 3d models
+
+# Done
+- [X] add a photo for the author bio page

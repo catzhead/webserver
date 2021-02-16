@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404, render
 
 
 def index(request):
-    blog_posts = BlogPost.objects.filter(pub_date__lte=datetime.date.today())\
+    blog_posts = BlogPost.objects\
+        .filter(pub_date__lte=datetime.date.today())\
         .order_by('-pub_date')
     return render(request, 'blog/index.html', {'blog_posts': blog_posts})
 

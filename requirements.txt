@@ -2,3 +2,4 @@ django
 PyYAML
 beautifulsoup4
 pydot
+markdown
